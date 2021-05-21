@@ -24,7 +24,6 @@ class Config(object):
 
 
 
-
 # 1.创建app对象
 app = Flask(__name__)
 # 2.配置信息注册到APP中
