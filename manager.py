@@ -7,12 +7,14 @@ from redis import StrictRedis
 from flask_wtf.csrf import CSRFProtect
 # 大写开头的Session ,是借助第三方session类去调整flask中session的存储位置
 from flask_session import Session
-
+# 导入管理类，接管app
+from flask_migrate import Manager
 
 
 # 1.创建app对象
 app = Flask(__name__)
 
+# 创建项目管理类
 class Config(object):
 
     DEBUG = True
@@ -31,7 +33,7 @@ class Config(object):
     # 以下是 from flask_session import Session 的配置信息
     # 调整sesion存储到redis配置信息
     # 设置存储session的数据库类型
-    SESSION_TYPE = "redis"
+    SESSIOM_TYPE = "redis"
     # 创建数据库实力对象配置。到时候真正存储数据是到这条数据库，因为使用大写Session改变位置
     SESSION_REDIS = StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_NUM)
     # SIGER 签名的意思，在python意思就是需要加密
@@ -61,10 +63,8 @@ csrf = CSRFProtect(app)
 # 6.# 大写开头的Session ,是借助第三方session类去调整flask中session的存储位置
 # 没有返回值，就这样设置就可以了
 Session(app)
-
-
-
-
+# 7.创建manage管理类
+managr = Manager(app)
 
 
 @app.route("/")
@@ -75,5 +75,4 @@ def demo():
     return "程序是树，bug是花，没有花哪来的果"
 
 if __name__ == '__main__':
-
-    app.run(port=5001)
+    managr.run()
