@@ -1,6 +1,6 @@
 from redis import StrictRedis
 
-
+# 从单一职责来看config.py作为一个配置信息的文件
 
 # 创建项目管理类(父类)
 class Config(object):
