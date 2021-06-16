@@ -1,5 +1,5 @@
 from redis import StrictRedis
-
+import logging
 # 从单一职责来看config.py作为一个配置信息的文件
 
 # 创建项目管理类(父类)
@@ -37,20 +37,23 @@ class Config(object):
      ，文档地址：http://pythonhosted.org/Flask-Session/这个地址有解释"""
 
 
-# Config继承父类,这样就什么都有了
-# 创建这个类相当于是开发模式
+# Config继承父类,这样就什么都有了，创建这个类相当于是开发者模式环境
 class DevelopmenConfig(Config):
 
     # 开发的时候调试开启debug模式
     DEBUG = True
+    # 设置开发者环境日志级别
+    LOG_LEVEL = logging.DEBUG
 
 
-
-# 创建这个类相当于是线上模式的配置
-class ProductionConifg(object):
+# 创建这个类相当于是线上模式环境的配置
+class ProductionConifg(Config):
 
     # 上线以后就不用在去开启debug模式了，
     DEBUG = False
+    # 设置线上模式环境日志级别
+    LOG_LEVEL = logging.WARNING
+
     # 上线的时候在开启，修改ip地址就可以了
     # SQLALCHEMY_DATABASE_URI = "mysql://root：mysql@127.0.0.1:3306/new"
 
